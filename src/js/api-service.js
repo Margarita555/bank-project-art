@@ -2,7 +2,7 @@ const API_KEY = '7c8bbc90-8fcc-11ec-afa3-bfe597d9e008';
 
 export default class Client {
   constructor() {
-    this.amount = 0;
+    this.clients = [];
   }
   fetchCurrencyRates() {
     return fetch(`https://freecurrencyapi.net/api/v2/latest?apikey=${API_KEY}`)
