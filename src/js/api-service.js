@@ -13,23 +13,10 @@ export default class Client {
         if (rate.data.length === 0) {
           return error;
         } else {
-          //   console.log(rate.data);
           return rate.data;
         }
       });
   }
-
-  //   get query() {
-  //     return this.searchQuery;
-  //   }
-
-  //   set query(newQuery) {
-  //     this.searchQuery = newQuery;
-  //   }
-
-  //   in() {
-  //     this.page += 1;
-  //   }
 }
 
 // async function fetchCurrencyRates() {
