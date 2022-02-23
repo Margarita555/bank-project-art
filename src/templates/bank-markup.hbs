@@ -1,12 +1,13 @@
-{{!-- <li class="client">
+{{#each this}}
+<li class="client">
       <form class="clientForm">
           <label class="label">
             Id
-            <input class="input input--bank" type="text" name="id" value=" {{id}}" />
+            <input class="input input--bank" type="text" name="id" value="{{id}}" />
           </label>
           <label class="label">
             Name
-            <input class="input input--bank" type="text" name="name" value=" {{name}}" />
+            <input class="input input--bank" type="text" name="name" value="{{name}}" />
           </label>
           <label class="label">
             Registration date
@@ -17,11 +18,12 @@
             <input class="input input--bank" type="text" name="isActive" value="{{isActive}}" />
           </label>
           <button class="btn" id="edit{{id}}" type="submit">Save</button>
-          <button class=" btn" data-remove="{{id}}" type="button">Delete</button>
+          <button class="btn" data-remove="{{id}}" type="button">Delete</button>
         </form>
-      
       <h3 class="accounts">Accounts</h3>
       <button class="btn" data-debit="{{id}}" type="button">Debit accounts</button>
-      <button class=" btn" id="credit{{id}}" type="button">Credit accounts</button>
-      <ul class="accountsContainer" id="{{id}}"></ul>
-  </li> --}}
+      <button class=" btn" data-credit="{{id}}" type="button">Credit accounts</button>
+      <ul class="accountsContainer" id="{{id}}">
+      </ul>
+  </li>
+  {{/each}}

@@ -1,0 +1,32 @@
+{{#each this}}
+    <li class="client">
+       <form class="creditForm">
+            <h3>Credit</h3>
+            <label class="label">
+                Balance
+                <input class="input" type="text" name="balance" value="{{balance}}" />
+            </label>
+            <label class="label">
+                <label class="label">
+            Credit limit
+            <input class="input" type="text" name="creditLimit" value="{{creditLimit}}" />
+           </label>
+                Activity
+                <input class="input" type="text" name="activity" value="{{activity}}" />
+            </label>
+            <label class="label">
+                Currency
+                <input class="input" type="text" name="currency" value="{{currency}}" />
+            </label>
+            <label class="label">
+                Activity date
+                <input class="input" type="text" name="activityDate" value="{{registrationDate}}" />
+            </label>
+            <label class="label">
+                Card expiry date
+                <input class="input" type="text" name="cardExpiryDate" value="{{cardExpiryDate}}" />
+            </label>
+            <button class="btn" type="submit">Add debit account</button>
+        </form>
+    </li>
+{{/each}}
