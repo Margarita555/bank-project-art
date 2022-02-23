@@ -11,18 +11,17 @@ const totalFunds = document.querySelector('.totalFunds');
 const bankContainer = document.querySelector('.bankContainer');
 
 let bank = [];
-let clients = localStorage.getItem("bank");
-if(clients !== null){
-  bank = JSON.parse(clients)
+let clients = localStorage.getItem('bank');
+if (clients !== null) {
+  bank = JSON.parse(clients);
 }
 
 renderBank(bank);
 
-function renderBank(bank){
-  bankContainer.innerHTML = "";
+function renderBank(bank) {
+  bankContainer.innerHTML = '';
   const bankMarkup = bankTemplate(bank);
   bankContainer.insertAdjacentHTML('beforeend', bankMarkup);
-
 }
 
 form.addEventListener('submit', onFormSubmit);
@@ -32,7 +31,6 @@ creditForm.addEventListener('submit', onCreditFormSubmit);
 bankContainer.addEventListener('click', onDeleteBtnClick);
 bankContainer.addEventListener('click', onDebitAccountClick);
 bankContainer.addEventListener('click', onCreditAccountClick);
-
 
 function onFormSubmit(event) {
   event.preventDefault();
@@ -52,8 +50,8 @@ function onFormSubmit(event) {
     },
   };
   bank.push(client);
-  localStorage.setItem("bank", JSON.stringify(bank));
-   renderBank(bank);
+  localStorage.setItem('bank', JSON.stringify(bank));
+  renderBank(bank);
 
   form.reset();
 }
@@ -79,7 +77,7 @@ function onDebitFormSubmit(event) {
   const client = bank.find(client => id == client.id);
   client.accounts.debit.push(debitAccount);
 
-  localStorage.setItem("bank", JSON.stringify(bank));
+  localStorage.setItem('bank', JSON.stringify(bank));
   debitForm.reset();
 }
 
@@ -106,45 +104,45 @@ function onCreditFormSubmit(event) {
 
   const client = bank.find(client => id == client.id);
   client.accounts.credit.push(creditAccount);
-  console.log(bank)
-  localStorage.setItem("bank", JSON.stringify(bank));
+  console.log(bank);
+  localStorage.setItem('bank', JSON.stringify(bank));
   creditForm.reset();
 }
 
-function onDebitAccountClick(event){
-  if(!event.target.hasAttribute('data-debit')){
+function onDebitAccountClick(event) {
+  if (!event.target.hasAttribute('data-debit')) {
     return;
   }
   const id = event.target.getAttribute('data-debit');
 
   const accountsContainer = document.getElementById(`${id}`);
   const client = bank.find(client => client.id === id);
- 
+
   const debitMarkup = debitTemplate(client.accounts.debit);
   accountsContainer.insertAdjacentHTML('beforeend', debitMarkup);
 }
 
-function onCreditAccountClick(event){
-  if(!event.target.hasAttribute('data-credit')){
+function onCreditAccountClick(event) {
+  if (!event.target.hasAttribute('data-credit')) {
     return;
   }
   const id = event.target.getAttribute('data-credit');
 
   const accountsContainer = document.getElementById(`${id}`);
   const client = bank.find(client => client.id === id);
- 
+
   const creditMarkup = creditTemplate(client.accounts.credit);
   accountsContainer.insertAdjacentHTML('beforeend', creditMarkup);
 }
 
 function onDeleteBtnClick(event) {
-  if(!event.target.hasAttribute('data-remove')){
+  if (!event.target.hasAttribute('data-remove')) {
     return;
   }
   const id = event.target.getAttribute('data-remove');
- 
+
   const updatedBank = bank.filter(client => client.id !== id);
   bank = updatedBank;
-  localStorage.setItem("bank", JSON.stringify(updatedBank));
+  localStorage.setItem('bank', JSON.stringify(updatedBank));
   renderBank(updatedBank);
 }
