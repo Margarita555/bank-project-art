@@ -3,30 +3,40 @@
     <form class='creditForm'>
       <h3>Credit</h3>
       <label class='label'>
-        Balance
+        Balance:
         <input class='input' type='text' name='balance' value='{{balance}}' />
       </label>
       <label class='label'>
-        Credit limit
+        Credit limit:
         <input class='input' type='text' name='creditLimit' value='{{creditLimit}}' />
       </label>
       <label class='label'>
-        Activity
+        Activity:
         <input class='input' type='text' name='activity' value='{{activity}}' />
       </label>
       <label class='label'>
-        Currency
+        Currency:
         <input class='input' type='text' name='currency' value='{{currency}}' />
       </label>
       <label class='label'>
-        Activity date
+        Activity date:
         <input class='input' type='text' name='activityDate' value='{{activityDate}}' />
       </label>
       <label class='label'>
-        Card expiry date
+        Card expiry date:
         <input class='input' type='text' name='cardExpiryDate' value='{{cardExpiryDate}}' />
       </label>
-      <button class='btn' type='submit'>Save</button>
+      <label class='label'>
+        Credit account id:
+        <input class='input' type='text' name='accountId' value='{{accountId}}' />
+      </label>
+      <button class='btn' id='{{id}}' data-creditsave='{{accountId}}' type='submit'>Save</button>
+      <button
+        class='btn'
+        id='{{id}}'
+        data-creditremove='{{accountId}}'
+        type='button'
+      >Delete</button>
     </form>
   </li>
 {{/each}}
