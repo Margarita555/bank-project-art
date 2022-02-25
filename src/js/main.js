@@ -10,7 +10,6 @@ let clients = localStorage.getItem('bank');
 if (clients !== null) {
   bank = JSON.parse(clients);
 }
-
 renderBank(bank);
 
 form.addEventListener('submit', onFormSubmit);
@@ -22,6 +21,8 @@ bankContainer.addEventListener('click', onCreditAccountClick);
 bankContainer.addEventListener('click', saveClientData);
 bankContainer.addEventListener('click', saveDebitAccount);
 bankContainer.addEventListener('click', saveCreditAccount);
+bankContainer.addEventListener('click', deleteDebitAccount);
+bankContainer.addEventListener('click', deleteCreditAccount);
 
 function renderBank(bank) {
   bankContainer.innerHTML = '';
@@ -206,4 +207,38 @@ function saveCreditAccount(event) {
   account.accountId = formData.get('accountId');
 
   localStorage.setItem('bank', JSON.stringify(bank));
+}
+
+function deleteDebitAccount(event) {
+  if (!event.target.hasAttribute('data-debitremove')) {
+    return;
+  }
+  const id = event.target.getAttribute('id');
+  const client = bank.find(client => client.id === id);
+  const accountId = event.target.getAttribute('data-debitremove');
+
+  for (let i = 0; i < client.accounts.debit.length; i++) {
+    if (client.accounts.debit[i].accountId === accountId) {
+      client.accounts.debit.splice(i, 1);
+    }
+  }
+  localStorage.setItem('bank', JSON.stringify(bank));
+  renderBank(bank);
+}
+
+function deleteCreditAccount(event) {
+  if (!event.target.hasAttribute('data-creditremove')) {
+    return;
+  }
+  const id = event.target.getAttribute('id');
+  const client = bank.find(client => client.id === id);
+  const accountId = event.target.getAttribute('data-creditremove');
+
+  for (let i = 0; i < client.accounts.credit.length; i++) {
+    if (client.accounts.credit[i].accountId === accountId) {
+      client.accounts.credit.splice(i, 1);
+    }
+  }
+  localStorage.setItem('bank', JSON.stringify(bank));
+  renderBank(bank);
 }

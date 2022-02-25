@@ -18,12 +18,15 @@ async function exchangeCurrency(balance, currency) {
 }
 
 async function countBankTotalFunds() {
+  let clients = localStorage.getItem('bank');
+  if (clients !== null) {
+    bank = JSON.parse(clients);
+  }
   try {
     let debitTotal = 0;
     for (let i = 0; i < bank.length; i++) {
       for (let j = 0; j < bank[i].accounts.debit.length; j++) {
         let account = bank[i].accounts.debit[j];
-
         const funds = Number(account.balance) + Number(account.activity);
         let currency = account.currency;
         if (currency === 'USD') {
@@ -51,7 +54,6 @@ async function countBankTotalFunds() {
     }
     const total = debitTotal + creditTotal;
     totalFunds.innerText = total.toFixed(2);
-    // console.log(total);
     return total;
   } catch (e) {
     error({ text: 'Error.Try again leter.' });
