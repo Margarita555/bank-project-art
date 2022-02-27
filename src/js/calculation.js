@@ -2,13 +2,16 @@ import fetchCurrencyRates from './api-service';
 import getRefs from './refs';
 const { totalFundsBtn, totalFunds } = getRefs();
 
-let bank = [];
-let clients = localStorage.getItem('bank');
-if (clients !== null) {
-  bank = JSON.parse(clients);
-}
-
 totalFundsBtn.addEventListener('click', countBankTotalFunds);
+
+export function fetchBank() {
+  let bank = [];
+  let clients = localStorage.getItem('bank');
+  if (clients !== null) {
+    bank = JSON.parse(clients);
+  }
+  return bank;
+}
 
 async function exchangeCurrency(balance, currency) {
   const rate = await fetchCurrencyRates().then(rates => {
@@ -18,10 +21,7 @@ async function exchangeCurrency(balance, currency) {
 }
 
 async function countBankTotalFunds() {
-  let clients = localStorage.getItem('bank');
-  if (clients !== null) {
-    bank = JSON.parse(clients);
-  }
+  let bank = fetchBank();
   try {
     let debitTotal = 0;
     for (let i = 0; i < bank.length; i++) {
@@ -59,17 +59,17 @@ async function countBankTotalFunds() {
     error({ text: 'Error.Try again leter.' });
   }
 }
-// countBankCashTotal();
 
-async function countClientsDebt(status) {
+async function countClientsDebt(clientStatus) {
   try {
+    let bank = fetchBank();
     let debtTotal = 0;
     for (let i = 0; i < bank.length; i++) {
       let flag = bank[i].isActive || !bank[i].isActive;
-      if (status && status === 'active') {
+      if (clientStatus && clientStatus === 'active') {
         flag = bank[i].isActive;
       }
-      if (status && status === 'inactive') {
+      if (clientStatus && clientStatus === 'inactive') {
         flag = !bank[i].isActive;
       }
       for (let j = 0; j < bank[i].accounts.credit.length; j++) {
@@ -93,15 +93,12 @@ async function countClientsDebt(status) {
   }
 }
 
-// countClientsDebt();
-// countClientsDebt('active');
-// countClientsDebt('inactive');
-
-function countDebtHolders(status) {
+function countDebtHolders(clientStatus) {
+  let bank = fetchBank();
   let counter = 0;
   for (let i = 0; i < bank.length; i++) {
     let flag = bank[i].isActive;
-    if (status && status === 'inactive') {
+    if (clientStatus && clientStatus === 'inactive') {
       flag = !bank[i].isActive;
     }
     for (let j = 0; j < bank[i].accounts.credit.length; j++) {
@@ -111,8 +108,5 @@ function countDebtHolders(status) {
       }
     }
   }
-  // console.log(counter);
   return counter;
 }
-// countDebtHolders('active');
-// countDebtHolders('inactive');

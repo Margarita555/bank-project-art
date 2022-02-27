@@ -2,14 +2,11 @@ import bankTemplate from '../templates/bank-markup.hbs';
 import debitTemplate from '../templates/debit-markup.hbs';
 import creditTemplate from '../templates/credit-markup.hbs';
 import { nanoid } from 'nanoid';
+import { fetchBank } from './calculation';
 import getRefs from './refs';
 const { form, debitForm, creditForm, bankContainer } = getRefs();
 
-let bank = [];
-let clients = localStorage.getItem('bank');
-if (clients !== null) {
-  bank = JSON.parse(clients);
-}
+let bank = fetchBank();
 renderBank(bank);
 
 form.addEventListener('submit', onFormSubmit);
@@ -37,6 +34,7 @@ function onFormSubmit(event) {
   const registrationDate = formData.get('date');
   const isActive = formData.get('isActive');
   const id = nanoid();
+
   const client = {
     id,
     name,
@@ -56,7 +54,6 @@ function onFormSubmit(event) {
 function onDebitFormSubmit(event) {
   event.preventDefault();
   const formData = new FormData(event.target.closest('form'));
-
   const id = formData.get('id');
   const balance = formData.get('balance');
   const activity = formData.get('activity');
@@ -104,7 +101,6 @@ function onCreditFormSubmit(event) {
     id,
     accountId,
   };
-
   const client = bank.find(client => id == client.id);
   client.accounts.credit.push(creditAccount);
   localStorage.setItem('bank', JSON.stringify(bank));
