@@ -27,7 +27,7 @@ async function countBankTotalFunds() {
     for (let i = 0; i < bank.length; i++) {
       for (let j = 0; j < bank[i].accounts.debit.length; j++) {
         let account = bank[i].accounts.debit[j];
-        const funds = Number(account.balance) + Number(account.activity);
+        const funds = account.balance + account.activity;
         let currency = account.currency;
         if (currency === 'USD') {
           debitTotal += funds;
@@ -41,8 +41,7 @@ async function countBankTotalFunds() {
     for (let i = 0; i < bank.length; i++) {
       for (let j = 0; j < bank[i].accounts.credit.length; j++) {
         let account = bank[i].accounts.credit[j];
-        const funds =
-          Number(account.balance) + Number(account.creditLimit) + Number(account.activity);
+        const funds = account.balance + account.creditLimit + account.activity;
         let currency = account.currency;
         if (currency === 'USD') {
           creditTotal += funds;
@@ -60,28 +59,59 @@ async function countBankTotalFunds() {
   }
 }
 
+// async function countClientsDebt(clientStatus) {
+//   console.log(clientStatus);
+//   // if (clientStatus && clientStatus !== 'active' && clientStatus !== 'inactive') {
+//   //   throw new Error('The client status is incorrect');
+//   // }
+//   try {
+//     let bank = fetchBank();
+//     let debtTotal = 0;
+//     for (let i = 0; i < bank.length; i++) {
+//       let flag = bank[i].isActive || !bank[i].isActive;
+//       if (clientStatus && clientStatus === 'active') {
+//         flag = bank[i].isActive;
+//       }
+//       if (clientStatus && clientStatus === 'inactive') {
+//         flag = !bank[i].isActive;
+//       }
+//       for (let j = 0; j < bank[i].accounts.credit.length; j++) {
+//         let account = bank[i].accounts.credit[j];
+//         let debt = 0;
+//         if (flag && account.creditLimit > account.balance) {
+//           debt = account.creditLimit - account.balance;
+//         }
+//         let currency = account.currency;
+//         if (currency === 'USD') {
+//           debtTotal += debt;
+//         } else {
+//           const exchangedDebt = await exchangeCurrency(debt, currency);
+//           debtTotal += exchangedDebt;
+//         }
+//       }
+//     }
+//     console.log(debtTotal);
+//     return debtTotal;
+//   } catch (e) {
+//     error({ text: 'Error.Try again leter.' });
+//   }
+// }
+
 async function countClientsDebt(clientStatus) {
-  if (clientStatus && clientStatus !== 'active' && clientStatus !== 'inactive') {
-    throw new Error('The client status is incorrect');
-  }
+  console.log(clientStatus);
   try {
     let bank = fetchBank();
     let debtTotal = 0;
     for (let i = 0; i < bank.length; i++) {
-      let flag = bank[i].isActive || !bank[i].isActive;
-      if (clientStatus && clientStatus === 'active') {
-        flag = bank[i].isActive;
-      }
-      if (clientStatus && clientStatus === 'inactive') {
+      let flag = bank[i].isActive;
+      if (!clientStatus) {
         flag = !bank[i].isActive;
       }
       for (let j = 0; j < bank[i].accounts.credit.length; j++) {
         let account = bank[i].accounts.credit[j];
         let debt = 0;
-        let creditLimit = Number(account.creditLimit);
-        let balance = Number(account.balance);
-        if (flag && creditLimit > balance) {
-          debt = creditLimit - balance;
+        if (flag && account.creditLimit > account.balance) {
+          debt = account.creditLimit - account.balance;
         }
         let currency = account.currency;
         if (currency === 'USD') {
@@ -92,17 +122,15 @@ async function countClientsDebt(clientStatus) {
         }
       }
     }
-
+    console.log(debtTotal);
     return debtTotal;
   } catch (e) {
     error({ text: 'Error.Try again leter.' });
   }
 }
-
+countClientsDebt(true);
+countClientsDebt(false);
 function countDebtHolders(clientStatus) {
-  if (clientStatus !== 'active' && clientStatus !== 'inactive') {
-    throw new Error('The client status is incorrect');
-  }
   let bank = fetchBank();
   let counter = 0;
   for (let i = 0; i < bank.length; i++) {
@@ -112,10 +140,14 @@ function countDebtHolders(clientStatus) {
     }
     for (let j = 0; j < bank[i].accounts.credit.length; j++) {
       let account = bank[i].accounts.credit[j];
-      if (flag && Number(account.creditLimit) > Number(account.balance)) {
+      console.log(account.creditLimit, account.balance);
+      if (flag && account.creditLimit > account.balance) {
         counter += 1;
       }
     }
   }
+  console.log(counter);
   return counter;
 }
+
+countDebtHolders('active');

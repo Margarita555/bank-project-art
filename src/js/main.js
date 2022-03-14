@@ -55,8 +55,8 @@ function onDebitFormSubmit(event) {
   event.preventDefault();
   const formData = new FormData(event.target.closest('form'));
   const id = formData.get('id');
-  const balance = formData.get('balance');
-  const activity = formData.get('activity');
+  const balance = Number(formData.get('balance'));
+  const activity = Number(formData.get('activity'));
   const activityDate = formData.get('activityDate');
   const cardExpiryDate = formData.get('cardExpiryDate');
   const currency = formData.get('currency');
@@ -83,12 +83,12 @@ function onCreditFormSubmit(event) {
   const formData = new FormData(event.target.closest('form'));
 
   const id = formData.get('id');
-  const balance = formData.get('balance');
-  const activity = formData.get('activity');
+  const balance = Number(formData.get('balance'));
+  const activity = Number(formData.get('activity'));
   const activityDate = formData.get('activityDate');
   const cardExpiryDate = formData.get('cardExpiryDate');
   const currency = formData.get('currency');
-  const creditLimit = formData.get('creditLimit');
+  const creditLimit = Number(formData.get('creditLimit'));
   const accountId = formData.get('accountId');
 
   const creditAccount = {
