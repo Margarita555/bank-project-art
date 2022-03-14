@@ -15,11 +15,11 @@ creditForm.addEventListener('submit', onCreditFormSubmit);
 bankContainer.addEventListener('click', onDeleteBtnClick);
 bankContainer.addEventListener('click', onDebitAccountClick);
 bankContainer.addEventListener('click', onCreditAccountClick);
-bankContainer.addEventListener('click', saveClientData);
-bankContainer.addEventListener('click', saveDebitAccount);
-bankContainer.addEventListener('click', saveCreditAccount);
-bankContainer.addEventListener('click', deleteDebitAccount);
-bankContainer.addEventListener('click', deleteCreditAccount);
+bankContainer.addEventListener('click', onSaveClientDataClick);
+bankContainer.addEventListener('click', onSaveDebitAccountClick);
+bankContainer.addEventListener('click', onSaveCreditAccountClick);
+bankContainer.addEventListener('click', onDeleteDebitAccountlick);
+bankContainer.addEventListener('click', onDeleteCreditAccountClick);
 
 function renderBank(bank) {
   bankContainer.innerHTML = '';
@@ -133,7 +133,7 @@ function onCreditAccountClick(event) {
   accountsContainer.insertAdjacentHTML('beforeend', creditMarkup);
 }
 
-function saveClientData(event) {
+function onSaveClientDataClick(event) {
   if (!event.target.hasAttribute('data-save')) {
     return;
   }
@@ -160,7 +160,7 @@ function onDeleteBtnClick(event) {
   renderBank(updatedBank);
 }
 
-function saveDebitAccount(event) {
+function onSaveDebitAccountClick(event) {
   if (!event.target.hasAttribute('data-debitsave')) {
     return;
   }
@@ -182,7 +182,7 @@ function saveDebitAccount(event) {
   localStorage.setItem('bank', JSON.stringify(bank));
 }
 
-function saveCreditAccount(event) {
+function onSaveCreditAccountClick(event) {
   if (!event.target.hasAttribute('data-creditsave')) {
     return;
   }
@@ -205,7 +205,7 @@ function saveCreditAccount(event) {
   localStorage.setItem('bank', JSON.stringify(bank));
 }
 
-function deleteDebitAccount(event) {
+function onDeleteDebitAccountlick(event) {
   if (!event.target.hasAttribute('data-debitremove')) {
     return;
   }
@@ -222,7 +222,7 @@ function deleteDebitAccount(event) {
   renderBank(bank);
 }
 
-function deleteCreditAccount(event) {
+function onDeleteCreditAccountClick(event) {
   if (!event.target.hasAttribute('data-creditremove')) {
     return;
   }

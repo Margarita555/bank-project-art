@@ -14,8 +14,8 @@ export function fetchBank() {
 }
 
 async function exchangeCurrency(balance, currency) {
-  const rate = await fetchCurrencyRates().then(rates => {
-    return rates[currency];
+  const rate = await fetchCurrencyRates(currency).then(rates => {
+    return rates[`USD_${currency}`];
   });
   return (balance / 100) * rate;
 }
@@ -61,6 +61,9 @@ async function countBankTotalFunds() {
 }
 
 async function countClientsDebt(clientStatus) {
+  if (clientStatus && clientStatus !== 'active' && clientStatus !== 'inactive') {
+    throw new Error('The client status is incorrect');
+  }
   try {
     let bank = fetchBank();
     let debtTotal = 0;
@@ -75,8 +78,10 @@ async function countClientsDebt(clientStatus) {
       for (let j = 0; j < bank[i].accounts.credit.length; j++) {
         let account = bank[i].accounts.credit[j];
         let debt = 0;
-        if (flag && Number(account.creditLimit) > Number(account.balance)) {
-          debt = Number(account.creditLimit) - Number(account.balance);
+        let creditLimit = Number(account.creditLimit);
+        let balance = Number(account.balance);
+        if (flag && creditLimit > balance) {
+          debt = creditLimit - balance;
         }
         let currency = account.currency;
         if (currency === 'USD') {
@@ -87,6 +92,7 @@ async function countClientsDebt(clientStatus) {
         }
       }
     }
+
     return debtTotal;
   } catch (e) {
     error({ text: 'Error.Try again leter.' });
@@ -94,6 +100,9 @@ async function countClientsDebt(clientStatus) {
 }
 
 function countDebtHolders(clientStatus) {
+  if (clientStatus !== 'active' && clientStatus !== 'inactive') {
+    throw new Error('The client status is incorrect');
+  }
   let bank = fetchBank();
   let counter = 0;
   for (let i = 0; i < bank.length; i++) {

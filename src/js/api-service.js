@@ -1,38 +1,17 @@
-const API_KEY = '7c8bbc90-8fcc-11ec-afa3-bfe597d9e008';
+const API_KEY = '0893e1cc2d0c91636005';
 
-// export default class Bank {
-//   constructor() {
-//     this.clients = [];
-  
-    
-//   }
-//   fetchCurrencyRates() {
-//     return fetch(`https://freecurrencyapi.net/api/v2/latest?apikey=${API_KEY}`)
-//       .then(response => {
-//         return response.json();
-//       })
-//       .then(rate => {
-//         if (rate.data.length === 0) {
-//           return error;
-//         } else {
-//           return rate.data;
-//         }
-//       });
-//   }
-// }
-
-export default async function fetchCurrencyRates() {
-  return await fetch(`https://freecurrencyapi.net/api/v2/latest?apikey=${API_KEY}`)
+export default async function fetchCurrencyRates(currency) {
+  return await fetch(
+    `https://free.currconv.com/api/v7/convert?q=USD_${currency}&compact=ultra&apiKey=${API_KEY}`,
+  )
     .then(response => {
       return response.json();
     })
     .then(rate => {
-      if (rate.data.length === 0) {
+      if (rate.length === 0) {
         return error;
       } else {
-        //   console.log(rate.data);
-        return rate.data;
+        return rate;
       }
     });
 }
-// console.log(fetchCurrencyRates());
